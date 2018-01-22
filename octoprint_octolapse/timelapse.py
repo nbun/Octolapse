@@ -17,17 +17,15 @@ class Timelapse(object):
 	
 	def __init__(self,octolapseSettings, dataFolder, timelapseFolder, onMovieRendering = None,onMovieDone = None, onMovieFailed = None ):
 		# config variables - These don't change even after a reset
-		self._logger.info("Timelapse.__init__ #1")
 		self.Settings = octolapseSettings
 		self.DataFolder = dataFolder
 		self.DefaultTimelapseDirectory =  timelapseFolder
 		self.OnMovieRenderingCallback = onMovieRendering
 		self.OnMovieDoneCallback = onMovieDone
 		self.OnMovieFailedCallback = onMovieFailed
-		self._logger.info("Timelapse.__init__ #2")
 		self.Responses = Responses() # Used to decode responses from the 3d printer
 		self.Commands = Commands() # used to parse and generate gcode
-		self._logger.info("Timelapse.__init__ #3")
+		
 		# Settings that may be different after StartTimelapse is called
 		self.FfMpegPath = None
 		self.Snapshot = None
@@ -35,30 +33,24 @@ class Timelapse(object):
 		self.Printer = None
 		self.CaptureSnapshot = None
 		self.Position = None
-		self._logger.info("Timelapse.__init__ #4")
 		
 		# State tracking variables
 		self.Reset()
-		self._logger.info("Timelapse.__init__ #5")
 		
 	def StartTimelapse(self,octoprintPrinter, octoprintPrinterProfile, ffmpegPath,g90InfluencesExtruder):
-		self._logger.info("Timelapse.StartTimelapse #1")
 		self.Reset()
-		self._logger.info("Timelapse.StartTimelapse #2")
+		
 		self.OctoprintPrinter = octoprintPrinter
 		self.OctoprintPrinterProfile = octoprintPrinterProfile
 		self.FfMpegPath = ffmpegPath
 		self.PrintStartTime=time.time()
-		self._logger.info("Timelapse.StartTimelapse #3")
 		self.Snapshot = Snapshot(self.Settings.CurrentSnapshot())
 		self.Gcode = SnapshotGcodeGenerator(self.Settings,octoprintPrinterProfile)
 		self.Printer = Printer(self.Settings.CurrentPrinter())
 		self.Rendering = Rendering(self.Settings.CurrentRendering())
 		self.CaptureSnapshot = CaptureSnapshot(self.Settings,  self.DataFolder, printStartTime=self.PrintStartTime)
 		self.Position = Position(self.Settings,octoprintPrinterProfile, g90InfluencesExtruder)
-		self._logger.info("Timelapse.StartTimelapse #4")
 		self.State = TimelapseState.WaitingForTrigger
-		self._logger.info("Timelapse.StartTimelapse #5")
 
 		self.IsTestMode = self.Settings.CurrentDebugProfile().is_test_mode
 		# create the triggers
