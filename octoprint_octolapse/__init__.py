@@ -233,7 +233,10 @@ class OctolapsePlugin(	octoprint.plugin.SettingsPlugin,
 			#eventId = self._printer.get_state_id()
 			self.Settings.CurrentDebugProfile().LogPrintStateChange("State Change:{0}.".format(event))
 			origin=payload["origin"]
-			self.OnPrintStart(origin)
+			try:
+				self.OnPrintStart(origin)
+			except Exception, e:
+				self.Settings.CurrentDebugProfile().LogInfo(str(e))
 				
 		elif (event == Events.PRINT_PAUSED):
 			self.OnPrintPause() # regular pause
