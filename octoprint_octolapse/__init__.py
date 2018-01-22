@@ -266,6 +266,9 @@ class OctolapsePlugin(	octoprint.plugin.SettingsPlugin,
 			self.Settings.CurrentDebugProfile().LogPrintStateChange("Octolapse is disabled.")
 			return
                 self._logger.info("OnPrintStart #2.5")
+		self._logger.info("OnPrintStart Timelapse is None: " + str(self.Timelapse is None))
+		self._logger.info("OnPrintStart Timelapse.State is None: " + str(self.Timelapse.State is None))
+	        self._logger.info("OnPrintStart Timelapse.State is: " + str(self.Timelapse))
 		if(self.Timelapse.State != TimelapseState.Idle):
 			self._logger.info("OnPrintStart #3")
 			self.Settings.CurrentDebugProfile().LogPrintStateChange("Octolapse is not idling.  CurrentState:{0}".format(self.Timelapse.State))
