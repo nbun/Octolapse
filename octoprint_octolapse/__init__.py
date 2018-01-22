@@ -318,6 +318,7 @@ class OctolapsePlugin(	octoprint.plugin.SettingsPlugin,
 			self._logger.info("StartTimelapse #7")
 			return {'success':False, 'error':"The ffmpeg {0} does not exist.  Please configure this setting within the Octoprint settings pages located at Features->Webcam & Timelapse under Timelapse Recordings->Path to FFMPEG.".format(ffmpegPath)}
 		self._logger.info("StartTimelapse #8")
+		self._logger.info("StartTimelapse g90:" + str(self._settings.settings.get(["feature"])["g90InfluencesExtruder"]))))
 		self.Timelapse.StartTimelapse(self._printer, self._printer_profile_manager.get_current(), ffmpegPath,self._settings.settings.get(["feature"])["g90InfluencesExtruder"])
 		self._logger.info("StartTimelapse #9")
 		return {'success':True}
