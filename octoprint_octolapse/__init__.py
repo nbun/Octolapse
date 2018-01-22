@@ -293,18 +293,27 @@ class OctolapsePlugin(	octoprint.plugin.SettingsPlugin,
 		
 
 	def StartTimelapse(self):
+		self._logger.info("StartTimelapse #1")
 		webcam = self._settings.settings.get(["webcam"])
 		ffmpegPath = ""
+		self._logger.info("StartTimelapse #2")
 		if("ffmpeg" in webcam):
+			self._logger.info("StartTimelapse #3")
 			ffmpegPath = webcam["ffmpeg"]
+		self._logger.info("StartTimelapse #4")
 		if(self.Settings.CurrentRendering().enabled and ffmpegPath == ""):
 			# todo:  throw some kind of exception
+			self._logger.info("StartTimelapse #5")
 			return {'success':False, 'error':"No ffmpeg path is set.  Please configure this setting within the Octoprint settings pages located at Features->Webcam & Timelapse under Timelapse Recordings->Path to FFMPEG."}
 
+		self._logger.info("StartTimelapse #6")
 		if(not os.path.isfile(ffmpegPath)):
 			# todo:  throw some kind of exception
+			self._logger.info("StartTimelapse #7")
 			return {'success':False, 'error':"The ffmpeg {0} does not exist.  Please configure this setting within the Octoprint settings pages located at Features->Webcam & Timelapse under Timelapse Recordings->Path to FFMPEG.".format(ffmpegPath)}
+		self._logger.info("StartTimelapse #8")
 		self.Timelapse.StartTimelapse(self._printer, self._printer_profile_manager.get_current(), ffmpegPath,self._settings.settings.get(["feature"])["g90InfluencesExtruder"])
+		self._logger.info("StartTimelapse #9")
 		return {'success':True}
 			
 	def OnCameraSettingsSuccess(self, *args, **kwargs):
