@@ -38,19 +38,23 @@ class Timelapse(object):
 		self.Reset()
 		
 	def StartTimelapse(self,octoprintPrinter, octoprintPrinterProfile, ffmpegPath,g90InfluencesExtruder):
+		self._logger.info("Timelapse.StartTimelapse #1")
 		self.Reset()
-		
+		self._logger.info("Timelapse.StartTimelapse #2")
 		self.OctoprintPrinter = octoprintPrinter
 		self.OctoprintPrinterProfile = octoprintPrinterProfile
 		self.FfMpegPath = ffmpegPath
 		self.PrintStartTime=time.time()
+		self._logger.info("Timelapse.StartTimelapse #3")
 		self.Snapshot = Snapshot(self.Settings.CurrentSnapshot())
 		self.Gcode = SnapshotGcodeGenerator(self.Settings,octoprintPrinterProfile)
 		self.Printer = Printer(self.Settings.CurrentPrinter())
 		self.Rendering = Rendering(self.Settings.CurrentRendering())
 		self.CaptureSnapshot = CaptureSnapshot(self.Settings,  self.DataFolder, printStartTime=self.PrintStartTime)
 		self.Position = Position(self.Settings,octoprintPrinterProfile, g90InfluencesExtruder)
+		self._logger.info("Timelapse.StartTimelapse #4")
 		self.State = TimelapseState.WaitingForTrigger
+		self._logger.info("Timelapse.StartTimelapse #5")
 
 		self.IsTestMode = self.Settings.CurrentDebugProfile().is_test_mode
 		# create the triggers
